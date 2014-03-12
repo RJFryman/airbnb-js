@@ -18,6 +18,7 @@ function load(app, fn){
 
   app.get('/', d, home.index);
   app.get('/register', d, users.fresh);
+  app.post('/register', d, users.create);
   console.log('Routes Loaded');
   fn();
 }

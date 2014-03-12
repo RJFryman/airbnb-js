@@ -20,7 +20,10 @@ describe('user', function(){
 
   beforeEach(function(done){
     global.nss.db.dropDatabase(function(err, result){
-      done();
+      var u1 = new User({email:'test@rjf.com', password:'1234'});
+      u1.register(function(){
+        done();
+      });
     });
   });
 
@@ -32,7 +35,31 @@ describe('user', function(){
         expect(res.status).to.equal(200);
         expect(res.text).to.include('Register');
         done();
+      });
+    });
+  });
+  describe('POST /register', function(){
+    it('should allow a user to register', function(done){
+      request(app)
+      .post('/register')
+      .field('email', 'robert@rjf.com')
+      .field('password', '1234')
+      .field('role', 'host')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        done();
+      });
+    });
 
+    it('should not allow a duplicate email to register', function(done){
+      request(app)
+      .post('/register')
+      .field('email', 'test@rjf.com')
+      .field('password', '1234')
+      .field('role', 'host')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        done();
       });
     });
   });
