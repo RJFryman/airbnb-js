@@ -16,3 +16,26 @@ exports.create = function(req, res){
     }
   });
 };
+
+exports.auth = function(req, res){
+  res.render('users/auth', {title: 'Login Users'});
+};
+
+exports.login = function(req, res){
+  User.login(req.body.email, req.body.password, function(user){
+    if(user){
+      req.session.regenerate(function(){
+        req.session.userId = user._id.toString();
+        req.session.save(function(){
+          res.redirect('/');
+        });
+      });
+    }else{
+      req.session.destroy(function(){
+        res.render('users/auth', {title: 'Login Users'});
+      });
+    }
+  });
+};
+
+

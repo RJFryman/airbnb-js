@@ -56,8 +56,33 @@ describe('User', function(){
       });
     });
   });
+  describe('.insert', function(){
+    it('should find a user by email', function(done){
+      var email = 'julius@nomail.com';
+      var password = '1234';
+      User.login(email, password, function(user){
+        expect(user.email).to.equal('julius@nomail.com');
+        expect(user.role).to.equal('host');
+        done();
+      });
+    });
 
+    it('should not allow an incorrect email', function(done){
+      var email = 'robert@yesmail.com';
+      var password = '1234';
+      User.login(email, password, function(user){
+        expect(user).to.be.null;
+        done();
+      });
+    });
+
+    it('should not allow an incorrect password', function(done){
+      var email = 'julius@nomail.com';
+      var password = '4321';
+      User.login(email, password, function(user){
+        expect(user).to.be.null;
+        done();
+      });
+    });
+  });
 });
-
-
-
