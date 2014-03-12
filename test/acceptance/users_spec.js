@@ -20,7 +20,7 @@ describe('user', function(){
 
   beforeEach(function(done){
     global.nss.db.dropDatabase(function(err, result){
-      var u1 = new User({email:'test@rjf.com', password:'1234'});
+      var u1 = new User({email:'test@nomail.com', password:'1234'});
       u1.register(function(){
         done();
       });
@@ -42,7 +42,7 @@ describe('user', function(){
     it('should allow a user to register', function(done){
       request(app)
       .post('/register')
-      .field('email', 'robert@rjf.com')
+      .field('email', 'robert.fryman@gmail.com')
       .field('password', '1234')
       .field('role', 'host')
       .end(function(err, res){
@@ -54,11 +54,12 @@ describe('user', function(){
     it('should not allow a duplicate email to register', function(done){
       request(app)
       .post('/register')
-      .field('email', 'test@rjf.com')
+      .field('email', 'test@nomail.com')
       .field('password', '1234')
       .field('role', 'host')
       .end(function(err, res){
-        expect(res.status).to.equal(302);
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('Register');
         done();
       });
     });

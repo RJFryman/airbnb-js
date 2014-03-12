@@ -3,7 +3,7 @@
 var User = require('../models/user');
 
 exports.fresh = function(req, res){
-  res.render('users/fresh', {title: 'Register Here'});
+  res.render('users/fresh', {title: 'Register New Users'});
 };
 
 exports.create = function(req, res){
@@ -12,7 +12,7 @@ exports.create = function(req, res){
     if(user._id){
       res.redirect('/');
     }else{
-      res.redirect('/register');
+      res.render('users/fresh', {title: 'Register Here'});
     }
   });
 };
