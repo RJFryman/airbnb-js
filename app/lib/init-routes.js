@@ -14,8 +14,10 @@ module.exports = function(req, res, next){
 
 function load(app, fn){
   var home = require('../routes/home');
+  var users = require('../routes/users');
 
   app.get('/', d, home.index);
+  app.get('/register', d, users.fresh);
   console.log('Routes Loaded');
   fn();
 }
